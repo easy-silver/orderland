@@ -17,23 +17,23 @@ public class Member {
     private Long memberNo;
 
     // 이름(한글, 영문 대소문자만 허용)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String name;
 
     // 별명(영문 소문자만 허용)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String nickname;
 
-    // 비밀번호(영문 대문자, 영문 소문자, 특수 문자, 숫자 각 1개 이상씩 포함)
+    // 비밀번호(최소 10자 이상/영문 대문자, 영문 소문자, 특수 문자, 숫자 각 1개 이상씩 포함)
     @Column(nullable = false)
     private String password;
 
     // 전화번호(숫자)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String telNo;
 
     // 이메일(이메일 형식)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String email;
 
     // 성별
