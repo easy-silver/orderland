@@ -1,6 +1,7 @@
 package backpac.homework.orderland.domain.member;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -8,8 +9,9 @@ import javax.persistence.*;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
-@Entity
+@Getter
 @NoArgsConstructor
+@Entity
 public class Member {
 
     // 회원번호(PK, AI)
@@ -51,3 +53,4 @@ public class Member {
         this.gender = gender;
     }
 }
+
