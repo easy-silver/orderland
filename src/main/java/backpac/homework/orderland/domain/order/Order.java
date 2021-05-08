@@ -34,8 +34,10 @@ public class Order {
     @JoinColumn(name = "member_no", nullable = false)
     private Member member;
 
+    // FIXME : 주문번호 생성시점 고민 필요
     @Builder
-    public Order(String productName, LocalDateTime paymentDate, Member member) {
+    public Order(String orderNo, String productName, LocalDateTime paymentDate, Member member) {
+        this.orderNo = orderNo;
         this.productName = productName;
         this.paymentDate = paymentDate;
         this.member = member;
