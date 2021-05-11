@@ -40,7 +40,6 @@ public class OrderRepositoryTest {
 
         //when
         Order order = orderRepository.save(Order.builder()
-                .orderNo("OD1234567890")
                 .productName("새우깡")
                 .paymentDate(LocalDateTime.now())
                 .member(member)
@@ -65,14 +64,12 @@ public class OrderRepositoryTest {
                 .build());
 
         orderRepository.save(Order.builder()
-                .orderNo("ORDER0011111")
                 .productName("새우깡")
                 .paymentDate(LocalDateTime.now())
                 .member(member1)
                 .build());
 
         orderRepository.save(Order.builder()
-                .orderNo("ORDER0022222")
                 .productName("구운감자")
                 .paymentDate(LocalDateTime.now())
                 .member(member1)
@@ -88,7 +85,6 @@ public class OrderRepositoryTest {
                 .build());
 
         orderRepository.save(Order.builder()
-                .orderNo("ORDER0033333")
                 .productName("홈런볼")
                 .paymentDate(LocalDateTime.now())
                 .member(member2)
