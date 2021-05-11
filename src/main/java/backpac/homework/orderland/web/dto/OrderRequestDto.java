@@ -23,6 +23,8 @@ public class OrderRequestDto {
 
     public Order toEntity() {
         return Order.builder()
+                .productName(productName)
+                .paymentDate(paymentDate)
                 .build();
     }
 }

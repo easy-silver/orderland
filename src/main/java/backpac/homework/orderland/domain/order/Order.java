@@ -43,9 +43,14 @@ public class Order {
         this.member = member;
     }
 
+    public Order setMember(Member member) {
+        this.member = member;
+        return this;
+    }
+
     /**
      * 12자리 주문번호 만들기
-     * FIXME : 숫자포함한 고유값으로 변경해야 함
+     * FIXME : 숫자를 포함한 고유값으로 변경해야 함
      */
     private String createOrderNo() {
         return StringUtil.randomAlphabet(12);
