@@ -87,7 +87,7 @@ public class MemberRepositoryTest {
         List<Member> members = repository.findAll();
 
         //then
-        assertThat(members.size()).isEqualTo(2);
+        assertThat(members.size()).isGreaterThan(2);
     }
 
     @Test
@@ -123,6 +123,21 @@ public class MemberRepositoryTest {
         //then
         assertThat(members.size()).isGreaterThan(0);
         assertThat(members.get(0).getGender()).isEqualTo(Gender.FEMALE);
+    }
+
+    @Test
+    public void 이메일로_회원조회() {
+        //given
+        String email = "timo@gmail.com";
+        Pageable pageable = PageRequest.of(0, 10, Sort.by(DESC, "memberNo"));
+
+        //when
+        Page<Member> result = repository.findByEmail(email, pageable);
+        List<Member> members = result.getContent();
+
+        //then
+        assertThat(members.size()).isEqualTo(1);
+        assertThat(members.get(0).getName()).isEqualTo("이지은");
     }
 
 }
