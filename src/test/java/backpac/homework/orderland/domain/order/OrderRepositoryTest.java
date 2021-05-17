@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -99,5 +100,19 @@ public class OrderRepositoryTest {
         assertThat(all.size()).isEqualTo(3);
         assertThat(allByMember1.size()).isEqualTo(2);
         assertThat(allByMember2.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void 회원별_마지막_주문건_조회() {
+        //given
+        Member member = memberRepository.findByName("이지은", PageRequest.of(0, 1))
+                .getContent().get(0);
+
+        Order lastOrder = orderRepository.findFirstByMemberOrderByPaymentDateDesc(member);
+
+        //when
+        System.out.println("lastOrder.getProductName() = " + lastOrder.getProductName());
+
+        //then
     }
 }
