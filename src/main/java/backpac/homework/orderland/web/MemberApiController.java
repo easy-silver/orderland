@@ -4,6 +4,7 @@ import backpac.homework.orderland.service.MemberService;
 import backpac.homework.orderland.service.OrderService;
 import backpac.homework.orderland.web.dto.MemberRequestDto;
 import backpac.homework.orderland.web.dto.MemberResponseDto;
+import backpac.homework.orderland.web.dto.MemberSearchRequestDto;
 import backpac.homework.orderland.web.dto.OrderResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -30,11 +31,10 @@ public class MemberApiController {
 
     /**
      * 모든 회원 조회
-     * @param pageNo
      */
     @GetMapping("/members")
-    public List<MemberResponseDto> findAllMembers(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo) {
-        return memberService.findAllMembers(pageNo);
+    public List<MemberResponseDto> findAllMembers(MemberSearchRequestDto requestDto) {
+        return memberService.findMembers(requestDto);
     }
 
     /**

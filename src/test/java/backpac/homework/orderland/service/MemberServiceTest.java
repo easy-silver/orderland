@@ -5,6 +5,7 @@ import backpac.homework.orderland.domain.member.Member;
 import backpac.homework.orderland.domain.member.MemberRepository;
 import backpac.homework.orderland.web.dto.MemberRequestDto;
 import backpac.homework.orderland.web.dto.MemberResponseDto;
+import backpac.homework.orderland.web.dto.MemberSearchRequestDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,9 +90,22 @@ public class MemberServiceTest {
                 .build());
 
         //when
-        List<MemberResponseDto> members = service.findAllMembers(0);
+        List<MemberResponseDto> members = service.findMembers(new MemberSearchRequestDto());
 
         //then
-        assertThat(members.size()).isEqualTo(2);
+        assertThat(members.size()).isGreaterThan(2);
+    }
+
+    @Test
+    public void 이름으로_조회() {
+        //given
+        String name = "이지은";
+
+        //when
+        List<MemberResponseDto> members = service.findMembers(new MemberSearchRequestDto(name, null));
+
+        //then
+        assertThat(members.size()).isGreaterThan(0);
+        assertThat(members.get(0).getNickname()).isEqualTo("티모");
     }
 }
