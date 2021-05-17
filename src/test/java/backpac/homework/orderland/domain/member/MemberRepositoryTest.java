@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Transactional
 @RunWith(SpringRunner.class)
@@ -93,7 +94,7 @@ public class MemberRepositoryTest {
     public void 페이징_사용() {
         //given
         Pageable pageable = PageRequest.of(0,10,
-                Sort.by(Sort.Direction.DESC, "memberNo"));
+                Sort.by(DESC, "memberNo"));
 
         //when
         Page<Member> result = repository.findAll(pageable);
@@ -107,6 +108,21 @@ public class MemberRepositoryTest {
         assertThat(totalPages).isGreaterThan(0);
         assertThat(members.get(0).getName()).isEqualTo("이라떼");
         assertThat(totalCount).isEqualTo(2);
+    }
+
+    @Test
+    public void 이름으로_회원조회() {
+        //given
+        String name = "이지은";
+        Pageable pageable = PageRequest.of(0, 10, Sort.by(DESC, "memberNo"));
+
+        //when
+        Page<Member> result = repository.findByName(name, pageable);
+        List<Member> members = result.getContent();
+
+        //then
+        assertThat(members.size()).isGreaterThan(0);
+        assertThat(members.get(0).getGender()).isEqualTo(Gender.FEMALE);
     }
 
 }

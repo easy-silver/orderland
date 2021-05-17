@@ -1,11 +1,12 @@
 package backpac.homework.orderland.domain.member;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.awt.print.Pageable;
-import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    //List<Member> findAll(Pageable pageable);
+    // 이름으로 검색
+    Page<Member> findByName(String name, Pageable pageable);
 }
