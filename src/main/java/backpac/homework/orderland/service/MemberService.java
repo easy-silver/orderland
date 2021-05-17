@@ -5,6 +5,9 @@ import backpac.homework.orderland.domain.member.MemberRepository;
 import backpac.homework.orderland.web.dto.MemberRequestDto;
 import backpac.homework.orderland.web.dto.MemberResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,8 +39,12 @@ public class MemberService {
     /**
      * 모든 회원 조회
      */
-    public List<MemberResponseDto> findAllMembers() {
-        return repository.findAll()
+    public List<MemberResponseDto> findAllMembers(int pageNo) {
+        // 회원번호 내림차순으로 정렬
+        Pageable pageable = PageRequest.of(pageNo,10,
+                Sort.by(Sort.Direction.DESC, "memberNo"));
+
+        return repository.findAll(pageable)
                 .stream()
                 .map(MemberResponseDto::new)
                 .collect(Collectors.toList());

@@ -89,7 +89,7 @@ public class MemberServiceTest {
                 .build());
 
         //when
-        List<MemberResponseDto> members = service.findAllMembers();
+        List<MemberResponseDto> members = service.findAllMembers(0);
 
         //then
         assertThat(members.size()).isEqualTo(2);

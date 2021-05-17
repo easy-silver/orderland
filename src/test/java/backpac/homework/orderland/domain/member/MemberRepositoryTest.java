@@ -4,6 +4,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,6 +87,26 @@ public class MemberRepositoryTest {
 
         //then
         assertThat(members.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void 페이징_사용() {
+        //given
+        Pageable pageable = PageRequest.of(0,10,
+                Sort.by(Sort.Direction.DESC, "memberNo"));
+
+        //when
+        Page<Member> result = repository.findAll(pageable);
+        List<Member> members = result.getContent();
+        int totalPages = result.getTotalPages();
+        int totalCount = result.getNumberOfElements();
+        boolean hasNextPage = result.hasNext();
+
+        //then
+        assertThat(hasNextPage).isFalse();
+        assertThat(totalPages).isGreaterThan(0);
+        assertThat(members.get(0).getName()).isEqualTo("이라떼");
+        assertThat(totalCount).isEqualTo(2);
     }
 
 }

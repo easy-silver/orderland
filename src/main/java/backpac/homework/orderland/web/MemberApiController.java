@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
+@RequestMapping("/api")
 @RestController
 public class MemberApiController {
 
@@ -29,10 +30,11 @@ public class MemberApiController {
 
     /**
      * 모든 회원 조회
+     * @param pageNo
      */
     @GetMapping("/members")
-    public List<MemberResponseDto> findAllMembers() {
-        return memberService.findAllMembers();
+    public List<MemberResponseDto> findAllMembers(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo) {
+        return memberService.findAllMembers(pageNo);
     }
 
     /**
