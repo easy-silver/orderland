@@ -1,6 +1,7 @@
 package backpac.homework.orderland.domain.order;
 
 import backpac.homework.orderland.domain.member.Member;
+import backpac.homework.orderland.util.StringUtil;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,12 +35,24 @@ public class Order {
     @JoinColumn(name = "member_no", nullable = false)
     private Member member;
 
-    // FIXME : 주문번호 생성시점 고민 필요
     @Builder
-    public Order(String orderNo, String productName, LocalDateTime paymentDate, Member member) {
-        this.orderNo = orderNo;
+    public Order(String productName, LocalDateTime paymentDate, Member member) {
+        this.orderNo = createOrderNo();
         this.productName = productName;
         this.paymentDate = paymentDate;
         this.member = member;
+    }
+
+    public Order setMember(Member member) {
+        this.member = member;
+        return this;
+    }
+
+    /**
+     * 12자리 주문번호 만들기
+     * FIXME : 숫자를 포함한 고유값으로 변경해야 함
+     */
+    private String createOrderNo() {
+        return StringUtil.randomAlphabet(12);
     }
 }
