@@ -29,7 +29,7 @@ public class MemberServiceTest {
     public void 회원_가입() {
         //given
         MemberRequestDto requestDto = MemberRequestDto.builder()
-                .name("이지은")
+                .username("이지은")
                 .nickname("티모")
                 .password("!qwerasdf1234")
                 .email("timo@mail.com")
@@ -42,14 +42,14 @@ public class MemberServiceTest {
 
         //then
         Member findMember = repository.findById(memberNo).get();
-        assertThat(requestDto.getName()).isEqualTo(findMember.getName());
+        assertThat(requestDto.getUsername()).isEqualTo(findMember.getUsername());
     }
 
     @Test
     public void 회원_조회() {
         //given
         MemberRequestDto requestDto = MemberRequestDto.builder()
-                .name("이지은")
+                .username("이지은")
                 .nickname("티모")
                 .password("!qwerasdf1234")
                 .email("timo@mail.com")
@@ -72,7 +72,7 @@ public class MemberServiceTest {
     public void 모든_회원_조회() {
         //given
         service.join(MemberRequestDto.builder()
-                .name("이지은")
+                .username("이지은")
                 .nickname("티모")
                 .password("!qwerasdf1234")
                 .email("timo@mail.com")
@@ -81,7 +81,7 @@ public class MemberServiceTest {
                 .build());
 
         service.join(MemberRequestDto.builder()
-                .name("이지금")
+                .username("이지금")
                 .nickname("모티")
                 .password("!qwerasdf1234")
                 .email("moti@mail.com")

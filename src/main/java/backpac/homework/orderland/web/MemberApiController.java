@@ -7,8 +7,11 @@ import backpac.homework.orderland.web.dto.MemberResponseDto;
 import backpac.homework.orderland.web.dto.MemberSearchRequestDto;
 import backpac.homework.orderland.web.dto.OrderResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,7 +28,13 @@ public class MemberApiController {
      * 회원 가입
      */
     @PostMapping("/members")
-    public Long join(@RequestBody MemberRequestDto requestDto) {
+    public Long join(@RequestBody @Valid MemberRequestDto requestDto, BindingResult result) throws BindException{
+
+        // 입력값 검증
+        if (result.hasErrors()) {
+            throw new BindException(result);
+        }
+
         return memberService.join(requestDto);
     }
 

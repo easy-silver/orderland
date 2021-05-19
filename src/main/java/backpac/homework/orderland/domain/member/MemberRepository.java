@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 이름으로 검색
-    Page<Member> findByName(String name, Pageable pageable);
+    Page<Member> findByUsername(String name, Pageable pageable);
 
     // 이메일로 검색
     Page<Member> findByEmail(String email, Pageable pageable);

@@ -6,7 +6,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
@@ -20,7 +24,7 @@ public class Member {
 
     // 이름(한글, 영문 대소문자만 허용)
     @Column(nullable = false, length = 20)
-    private String name;
+    private String username;
 
     // 별명(영문 소문자만 허용)
     @Column(nullable = false, length = 30)
@@ -43,14 +47,30 @@ public class Member {
     @Enumerated(STRING)
     private Gender gender;
 
+    private Boolean enabled;
+
+    @ManyToMany(fetch = LAZY)
+    @JoinTable(
+            name = "member_role",
+            joinColumns = @JoinColumn(name = "member_no"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<>();
+
     @Builder
-    public Member(String name, String nickname, String password, String telNo, String email, Gender gender) {
-        this.name = name;
+    public Member(String username, String nickname, String password, String telNo,
+                  String email, Gender gender, Boolean enabled) {
+        this.username = username;
         this.nickname = nickname;
         this.password = password;
         this.telNo = telNo;
         this.email = email;
         this.gender = gender;
+        this.enabled = enabled;
+    }
+
+    public Member addRole(Role role) {
+        this.roles.add(role);
+        return this;
     }
 }
 

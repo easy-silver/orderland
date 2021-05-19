@@ -28,7 +28,7 @@ public class MemberRepositoryTest {
     public void 회원_저장() {
         //given
         Member member = Member.builder()
-                .name("이지은")
+                .username("이지은")
                 .nickname("티모")
                 .password("!qwerasdf1234")
                 .email("timo@mail.com")
@@ -47,7 +47,7 @@ public class MemberRepositoryTest {
     public void 단일_회원_조회() {
         //given
         Member member = repository.save(Member.builder()
-                .name("이지은")
+                .username("이지은")
                 .nickname("티모")
                 .password("!qwerasdf1234")
                 .email("timo@mail.com")
@@ -59,14 +59,14 @@ public class MemberRepositoryTest {
         Member findMember = repository.findById(member.getMemberNo()).get();
 
         //then
-        assertThat(findMember.getName()).isEqualTo("이지은");
+        assertThat(findMember.getUsername()).isEqualTo("이지은");
     }
 
     @Test
     public void 여러_회원_조회() {
         //given
         repository.save(Member.builder()
-                .name("이지은")
+                .username("이지은")
                 .nickname("티모")
                 .password("!qwerasdf1234")
                 .email("timo@mail.com")
@@ -75,7 +75,7 @@ public class MemberRepositoryTest {
                 .build());
 
         repository.save(Member.builder()
-                .name("이지금")
+                .username("이지금")
                 .nickname("모티")
                 .password("!qwerasdf1234")
                 .email("moti@mail.com")
@@ -106,7 +106,7 @@ public class MemberRepositoryTest {
         //then
         assertThat(hasNextPage).isFalse();
         assertThat(totalPages).isGreaterThan(0);
-        assertThat(members.get(0).getName()).isEqualTo("이라떼");
+        assertThat(members.get(0).getUsername()).isEqualTo("이라떼");
         assertThat(totalCount).isEqualTo(2);
     }
 
@@ -117,7 +117,7 @@ public class MemberRepositoryTest {
         Pageable pageable = PageRequest.of(0, 10, Sort.by(DESC, "memberNo"));
 
         //when
-        Page<Member> result = repository.findByName(name, pageable);
+        Page<Member> result = repository.findByUsername(name, pageable);
         List<Member> members = result.getContent();
 
         //then
@@ -137,7 +137,7 @@ public class MemberRepositoryTest {
 
         //then
         assertThat(members.size()).isEqualTo(1);
-        assertThat(members.get(0).getName()).isEqualTo("이지은");
+        assertThat(members.get(0).getUsername()).isEqualTo("이지은");
     }
 
 }

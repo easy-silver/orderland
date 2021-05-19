@@ -31,7 +31,7 @@ public class OrderRepositoryTest {
     public void 주문_저장() {
         //given
         Member member = memberRepository.save(Member.builder()
-                .name("이지은")
+                .username("이지은")
                 .nickname("티모")
                 .password("!qwerasdf1234")
                 .email("timo@mail.com")
@@ -56,7 +56,7 @@ public class OrderRepositoryTest {
     public void 회원별_주문_조회() {
         //given
         Member member1 = memberRepository.save(Member.builder()
-                .name("이지은")
+                .username("이지은")
                 .nickname("티모")
                 .password("!qwerasdf1234")
                 .email("timo@mail.com")
@@ -77,7 +77,7 @@ public class OrderRepositoryTest {
                 .build());
 
         Member member2 = memberRepository.save(Member.builder()
-                .name("이지금")
+                .username("이지금")
                 .nickname("모티")
                 .password("!qwerasdf1234")
                 .email("moti@mail.com")
@@ -105,7 +105,7 @@ public class OrderRepositoryTest {
     @Test
     public void 회원별_마지막_주문건_조회() {
         //given
-        Member member = memberRepository.findByName("이지은", PageRequest.of(0, 1))
+        Member member = memberRepository.findByUsername("이지은", PageRequest.of(0, 1))
                 .getContent().get(0);
 
         Order lastOrder = orderRepository.findFirstByMemberOrderByPaymentDateDesc(member);

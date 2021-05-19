@@ -2,6 +2,7 @@ package backpac.homework.orderland.service;
 
 import backpac.homework.orderland.domain.member.Member;
 import backpac.homework.orderland.domain.member.MemberRepository;
+import backpac.homework.orderland.domain.member.Role;
 import backpac.homework.orderland.web.dto.MemberRequestDto;
 import backpac.homework.orderland.web.dto.MemberResponseDto;
 import backpac.homework.orderland.web.dto.MemberSearchRequestDto;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +21,22 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     private final MemberRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 회원 가입
      */
     public Long join(MemberRequestDto requestDto) {
-        return repository.save(requestDto.toEntity()).getMemberNo();
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+        requestDto.setPassword(encodedPassword);
+
+        // 권한 추가
+        Role role = new Role("ROLE_USER");
+        Member member = requestDto.toEntity();
+        member.addRole(role);
+
+        return repository.save(member).getMemberNo();
     }
 
     /**
@@ -52,7 +64,7 @@ public class MemberService {
 
         // 검색 조건에 따른 조회
         if (name != null && !name.isEmpty()) {
-            members = repository.findByName(name, pageable).getContent();
+            members = repository.findByUsername(name, pageable).getContent();
 
         }else if (email != null && !email.isEmpty()) {
             members = repository.findByEmail(email, pageable).getContent();
