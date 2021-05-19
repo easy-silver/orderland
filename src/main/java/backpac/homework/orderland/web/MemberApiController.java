@@ -2,10 +2,7 @@ package backpac.homework.orderland.web;
 
 import backpac.homework.orderland.service.MemberService;
 import backpac.homework.orderland.service.OrderService;
-import backpac.homework.orderland.web.dto.MemberRequestDto;
-import backpac.homework.orderland.web.dto.MemberResponseDto;
-import backpac.homework.orderland.web.dto.MemberSearchRequestDto;
-import backpac.homework.orderland.web.dto.OrderResponseDto;
+import backpac.homework.orderland.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -22,28 +19,45 @@ public class MemberApiController {
     private final MemberService memberService;
     private final OrderService orderService;
 
-    /* FIXME : List로 반환하는 것이 아닌 Map 형태로 반환할 것 */
-
     /**
      * 회원 가입
      */
     @PostMapping("/members")
-    public Long join(@RequestBody @Valid MemberRequestDto requestDto, BindingResult result) throws BindException{
+    public ResponseDto join(@RequestBody @Valid MemberRequestDto requestDto, BindingResult result) throws BindException{
+
+        ResponseDto<Object> responseDto = ResponseDto.builder().build();
 
         // 입력값 검증
-        if (result.hasErrors()) {
-            throw new BindException(result);
-        }
+        try {
+            if (result.hasErrors()) {
+                throw new BindException(result);
+            }
 
-        return memberService.join(requestDto);
+            responseDto.setData(memberService.join(requestDto));
+            responseDto.setDataCount(1);
+
+        } catch (BindException e) {
+
+            responseDto.isError();
+            responseDto.setResponseMessage("입력값이 유효하지 않습니다.");
+            responseDto.setData(result.getAllErrors());
+
+        } finally {
+            return responseDto;
+        }
     }
 
     /**
      * 모든 회원 조회
      */
     @GetMapping("/members")
-    public List<MemberResponseDto> findAllMembers(MemberSearchRequestDto requestDto) {
-        return memberService.findMembers(requestDto);
+    public ResponseDto findAllMembers(MemberSearchRequestDto requestDto) {
+        List<MemberResponseDto> members = memberService.findMembers(requestDto);
+
+        return ResponseDto.builder()
+                .data(members)
+                .dataCount(members.size())
+                .build();
     }
 
     /**
@@ -58,8 +72,13 @@ public class MemberApiController {
      * 단일 회원의 주문 목록 조회
      */
     @GetMapping("/members/{memberNo}/orders")
-    public List<OrderResponseDto> findOrdersByMember(@PathVariable Long memberNo) {
-        return orderService.findOrdersByMember(memberNo);
+    public ResponseDto findOrdersByMember(@PathVariable Long memberNo) {
+        List<OrderResponseDto> orderList = orderService.findOrdersByMember(memberNo);
+
+        return ResponseDto.builder()
+                .data(orderList)
+                .dataCount(orderList.size())
+                .build();
     }
 
 }
