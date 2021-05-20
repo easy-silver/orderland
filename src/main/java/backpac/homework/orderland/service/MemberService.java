@@ -3,6 +3,7 @@ package backpac.homework.orderland.service;
 import backpac.homework.orderland.domain.member.Member;
 import backpac.homework.orderland.domain.member.MemberRepository;
 import backpac.homework.orderland.domain.member.Role;
+import backpac.homework.orderland.web.dto.LoginDto;
 import backpac.homework.orderland.web.dto.MemberRequestDto;
 import backpac.homework.orderland.web.dto.MemberResponseDto;
 import backpac.homework.orderland.web.dto.MemberSearchRequestDto;
@@ -22,6 +23,7 @@ public class MemberService {
 
     private final MemberRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final SecurityService securityService;
 
     /**
      * 회원 가입
@@ -32,7 +34,8 @@ public class MemberService {
         requestDto.setPassword(encodedPassword);
 
         // 권한 추가
-        Role role = new Role("ROLE_USER");
+        Role role = new Role();
+        role.setId(1L);
         Member member = requestDto.toEntity();
         member.addRole(role);
 
@@ -76,5 +79,16 @@ public class MemberService {
         return members.stream()
                 .map(MemberResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public boolean login(LoginDto loginDto) {
+        return this.securityService.login(loginDto.getEmail(), loginDto.getPassword());
+    }
+
+    public MemberResponseDto findByEmail(String email) {
+        Member member = repository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다. EMAIL=" + email));
+
+        return new MemberResponseDto(member);
     }
 }

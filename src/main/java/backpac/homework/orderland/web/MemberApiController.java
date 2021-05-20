@@ -42,6 +42,9 @@ public class MemberApiController {
             responseDto.setResponseMessage("입력값이 유효하지 않습니다.");
             responseDto.setData(result.getAllErrors());
 
+        } catch (Exception e) {
+            e.printStackTrace();
+
         } finally {
             return responseDto;
         }
@@ -81,4 +84,11 @@ public class MemberApiController {
                 .build();
     }
 
+    @PostMapping("/login")
+    public MemberResponseDto login(@ModelAttribute LoginDto loginDto) {
+        if (memberService.login(loginDto)) {
+            return memberService.findByEmail(loginDto.getEmail());
+        }
+        return null;
+    }
 }
