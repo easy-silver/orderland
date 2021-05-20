@@ -53,21 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         + "from member_role mr "
                         + "inner join member m on m.member_no = mr.member_no "
                         + "inner join role r on mr.role_id = r.id "
-                        + "where r.username = ?");
+                        + "where m.email = ?");
     }
-
-    /*
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth)
-            throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .withDefaultSchema()
-                .withUser(Member.withUsername("user")
-                        .password(passwordEncoder().encode("pass"))
-                        .roles("USER"));
-    }
-*/
 
     @Bean
     @Override
