@@ -9,7 +9,6 @@ public class MemberResponseDto {
     private Long memberNo;
     private String name;
     private String nickname;
-    private String password;
     private String telNo;
     private String email;
     private Gender gender;
@@ -18,7 +17,6 @@ public class MemberResponseDto {
         this.memberNo = entity.getMemberNo();
         this.name = entity.getUsername();
         this.nickname = entity.getNickname();
-        this.password = entity.getPassword();
         this.telNo = entity.getTelNo();
         this.email = entity.getEmail();
         this.gender = entity.getGender();
