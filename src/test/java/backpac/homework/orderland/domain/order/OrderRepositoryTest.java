@@ -97,7 +97,7 @@ public class OrderRepositoryTest {
         List<Order> allByMember2 = orderRepository.findAllByMember(member2);
 
         //then
-        assertThat(all.size()).isEqualTo(3);
+        assertThat(all.size()).isEqualTo(4); // 테스트 데이터 포함
         assertThat(allByMember1.size()).isEqualTo(2);
         assertThat(allByMember2.size()).isEqualTo(1);
     }

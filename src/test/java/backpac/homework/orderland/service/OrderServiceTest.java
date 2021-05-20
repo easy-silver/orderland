@@ -32,7 +32,7 @@ public class OrderServiceTest {
     public void 주문_등록() {
         //given
         Long memberNo = memberRepository.save(Member.builder()
-                .name("이지은")
+                .username("이지은")
                 .nickname("티모")
                 .password("!qwerasdf1234")
                 .email("timo@mail.com")
@@ -60,7 +60,7 @@ public class OrderServiceTest {
     public void 회원별_주문_목록_조회() {
         //given
         Long memberNo = memberRepository.save(Member.builder()
-                .name("이지은")
+                .username("이지은")
                 .nickname("티모")
                 .password("!qwerasdf1234")
                 .email("timo@mail.com")
